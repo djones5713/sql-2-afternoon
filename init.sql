@@ -143,3 +143,44 @@ WHERE type = 'silver';
 
 DELETE FROM practice_delete
 WHERE value =  150;
+
+
+CREATE TABLE users (
+    user_id serial primary key,
+    name text NOT NULL,
+    email varchar(30) NOT NULL,
+    orders_id references orders(order_id)
+)
+-- PARENT
+CREATE TABLE products (
+    product_id serial primary key,
+    name text NOT NULL ,
+    price integer NOT NULL, 
+)
+
+-- CHILD
+CREATE TABLE orders (
+    order_id serial primary key,
+    product_id references products(product_id),
+    quantity integer NOT NULL
+)
+
+INSERT INTO users (name, email) values ('Jane Doe', jane@gmail.com), ('Maddison Walt', maddie@aol.com), ('Jacob Lee', jacob@gmail.com);
+INSERT INTO products (name, price) values ('macbook', 1050), ('Windows PC', 800), ('Ipad', 1000);
+INSERT INTO orders (order_id, product_id, quantity) values (1, SELECT product_id FROM products WHERE name='macbook', 2), (2, SELECT product_id FROM products WHERE name='Windows PC', 8 ), (3, )(2, SELECT product_id FROM products WHERE name='Ipad', 5);
+
+
+SELECT * FROM orders;
+
+SELECT SUM( quantity)
+FROM orders 
+WHERE id = 1;
+
+ALTER TABLE orders add column user_id references users(user_id);
+
+SELECT * FROM orders WHERE user_id = 2;
+
+
+SELECT SUM(orders)
+FROM users
+WHERE id = 3;
